@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 
 function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
-  // add useEffect code
+  useEffect(() => {
+    const timerID = setTimeout(() => {
+      setTimeRemaining(timeRemaining - 1)
+    }, 1000)
+
+    // Cleanup arrow function
+    return () => clearTimeout(timerID)
+  }, [timeRemaining])
+
+  if (timeRemaining === 0) {
+    setTimeRemaining(10)
+    onAnswered(false)
+  }
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
@@ -11,6 +23,8 @@ function Question({ question, onAnswered }) {
   }
 
   const { id, prompt, answers, correctIndex } = question;
+
+  const areSecondsPlural = timeRemaining === 1 ? 'second' : 'seconds'
 
   return (
     <>
@@ -24,7 +38,7 @@ function Question({ question, onAnswered }) {
           </button>
         );
       })}
-      <h5>{timeRemaining} seconds remaining</h5>
+      <h5>{timeRemaining} {areSecondsPlural} remaining</h5>
     </>
   );
 }

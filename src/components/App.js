@@ -6,6 +6,7 @@ function App() {
   const [questions, setQuestions] = useState(quiz);
   const [currentQuestionId, setCurrentQuestion] = useState(1);
   const [score, setScore] = useState(0);
+  // NOTE: Wondering if this is the best way to find id of current Q
   const currentQuestion = questions.find((q) => q.id === currentQuestionId);
 
   function handleQuestionAnswered(correct) {
@@ -30,7 +31,7 @@ function App() {
         ) : (
           <>
             <h1>Game Over</h1>
-            <h2>Total Correct: {score}</h2>
+            <h2>Total Correct: {score}/{questions.length}</h2>
           </>
         )}
       </section>
